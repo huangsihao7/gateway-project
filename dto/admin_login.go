@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"gateway-pj/public"
+	"gateway-project/public"
 	"github.com/gin-gonic/gin"
 	"time"
 )

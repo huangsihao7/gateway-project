@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gateway-pj/router"
+	"gateway-project/router"
 	"github.com/e421083458/golang_common/lib"
 	"os"
 	"os/signal"

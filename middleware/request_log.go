@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"bytes"
-	"gateway-pj/public"
+	"gateway-project/public"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
