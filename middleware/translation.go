@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/e421083458/gin_scaffold/public"
+	"gateway-pj/public"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/zh"
@@ -12,7 +12,7 @@ import (
 	"reflect"
 )
 
-//设置Translation
+// 设置Translation
 func TranslationMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//参照：https://github.com/go-playground/validator/blob/v9/_examples/translations/main.go

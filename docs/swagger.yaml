@@ -1,19 +1,46 @@
 definitions:
-  dto.DemoInput:
+  dto.AdminInfoOutput:
     properties:
-      age:
-        example: 20
-        type: integer
-      name:
-        example: 姓名
+      avatar:
         type: string
-      passwd:
+      id:
+        type: integer
+      introduction:
+        type: string
+      login_time:
+        type: string
+      name:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
+  dto.AdminLoginInput:
+    properties:
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: admin
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.AdminLoginOutput:
+    properties:
+      token:
+        example: token
+        type: string
+    type: object
+  dto.ChangePwdInput:
+    properties:
+      password:
         example: "123456"
         type: string
     required:
-    - age
-    - name
-    - passwd
+    - password
     type: object
   middleware.Response:
     properties:
@@ -46,19 +73,12 @@ definitions:
 info:
   contact: {}
 paths:
-  /demo/bind:
-    post:
+  /admin/admin_info:
+    get:
       consumes:
       - application/json
-      description: 测试数据绑定
-      operationId: /demo/bind
-      parameters:
-      - description: body
-        in: body
-        name: polygon
-        required: true
-        schema:
-          $ref: '#/definitions/dto.DemoInput'
+      description: 管理员信息
+      operationId: /admin/admin_info
       produces:
       - application/json
       responses:
@@ -69,9 +89,86 @@ paths:
             - $ref: '#/definitions/middleware.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/dto.DemoInput'
+                  $ref: '#/definitions/dto.AdminInfoOutput'
               type: object
-      summary: 测试数据绑定
+      summary: 管理员信息
       tags:
-      - 用户
+      - 管理员接口
+  /admin/change_pwd:
+    post:
+      consumes:
+      - application/json
+      description: 修改密码
+      operationId: /admin/change_pwd
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChangePwdInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改密码
+      tags:
+      - 管理员接口
+  /admin_login/login:
+    post:
+      consumes:
+      - application/json
+      description: 管理员登录
+      operationId: /admin_login/login
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AdminLoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.AdminLoginOutput'
+              type: object
+      summary: 管理员登录
+      tags:
+      - 管理员接口
+  /admin_login/logout:
+    get:
+      consumes:
+      - application/json
+      description: 管理员退出
+      operationId: /admin/logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middleware.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 管理员退出
+      tags:
+      - 管理员接口
 swagger: "2.0"

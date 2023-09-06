@@ -1,14 +1,15 @@
 package router
 
 import (
-	"github.com/e421083458/gin_scaffold/controller"
-	"github.com/e421083458/gin_scaffold/middleware"
+	"gateway-pj/controller"
+	"gateway-pj/docs"
+	"gateway-pj/middleware"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/e421083458/gin_scaffold/docs"
 	"github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
+	"log"
 )
 
 // @title Swagger Example API
@@ -72,36 +73,36 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			"message": "pong",
 		})
 	})
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	//demo
-	v1 := router.Group("/demo")
-	v1.Use(middleware.RecoveryMiddleware(), middleware.RequestLog(), middleware.IPAuthMiddleware(), middleware.TranslationMiddleware())
-	{
-		controller.DemoRegister(v1)
+	//管理员登录
+	adminLoginRouter := router.Group("/admin_login")
+	store, err := sessions.NewRedisStore(10, "tcp", "172.22.110.88:6388", "", []byte("secret"))
+	if err != nil {
+		log.Fatal(err.Error())
 	}
-
-	//非登陆接口
-	store := sessions.NewCookieStore([]byte("secret"))
-	apiNormalGroup := router.Group("/api")
-	apiNormalGroup.Use(sessions.Sessions("mysession", store),
+	adminLoginRouter.Use(
+		sessions.Sessions("mysession", store),
 		middleware.RecoveryMiddleware(),
 		middleware.RequestLog(),
-		middleware.TranslationMiddleware())
+		middleware.TranslationMiddleware(),
+	)
 	{
-		controller.ApiRegister(apiNormalGroup)
+		controller.AdminLoginRegister(adminLoginRouter)
 	}
 
-	//登陆接口
-	apiAuthGroup := router.Group("/api")
-	apiAuthGroup.Use(
+	//管理员信息
+	adminInfoRouter := router.Group("/admin")
+
+	adminInfoRouter.Use(
 		sessions.Sessions("mysession", store),
 		middleware.RecoveryMiddleware(),
 		middleware.RequestLog(),
 		middleware.SessionAuthMiddleware(),
-		middleware.TranslationMiddleware())
+		middleware.TranslationMiddleware(),
+	)
 	{
-		controller.ApiLoginRegister(apiAuthGroup)
+		controller.AdminRegister(adminInfoRouter)
 	}
 	return router
 }
