@@ -1,4 +1,4 @@
-module gateway-project
+module gateway-pj
 
 go 1.20
 
@@ -13,6 +13,7 @@ require (
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.16.2
 	gopkg.in/go-playground/validator.v9 v9.29.0
+	gorm.io/gorm v1.22.4
 )
 
 require (
@@ -61,7 +62,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.2.1 // indirect
-	gorm.io/gorm v1.22.4 // indirect
 )
 
 replace github.com/gin-contrib/sse v0.1.0 => github.com/e421083458/sse v0.1.1

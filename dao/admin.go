@@ -2,8 +2,8 @@ package dao
 
 import (
 	"errors"
-	"gateway-project/dto"
-	"gateway-project/public"
+	"gateway-pj/dto"
+	"gateway-pj/public"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"time"

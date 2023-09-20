@@ -3,7 +3,7 @@ package middleware
 import (
 	"errors"
 	"fmt"
-	"gateway-project/public"
+	"gateway-pj/public"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
 	"runtime/debug"

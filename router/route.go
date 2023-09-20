@@ -1,9 +1,9 @@
 package router
 
 import (
-	"gateway-project/controller"
-	"gateway-project/docs"
-	"gateway-project/middleware"
+	"gateway-pj/controller"
+	"gateway-pj/docs"
+	"gateway-pj/middleware"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -91,7 +91,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		controller.AdminLoginRegister(adminLoginRouter)
 	}
 
-	//管理员信息
+	//管理员接口
 	adminInfoRouter := router.Group("/admin")
 
 	adminInfoRouter.Use(
@@ -105,7 +105,7 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		controller.AdminRegister(adminInfoRouter)
 	}
 
-	//service
+	//service接口
 	serviceRouter := router.Group("/service")
 
 	serviceRouter.Use(
@@ -118,6 +118,28 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	{
 		controller.ServiceRegister(serviceRouter)
 	}
+	// 租户路由
+	appRouter := router.Group("/app")
+	appRouter.Use(
+		sessions.Sessions("mySession", store),
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog(),
+		//middleware.SessionAuthMiddleware(),
+		middleware.TranslationMiddleware())
+	{
+		controller.APPRegister(appRouter)
+	}
 
+	//首页大盘接口
+	mainRouter := router.Group("/main")
+	mainRouter.Use(
+		sessions.Sessions("mySession", store),
+		middleware.RecoveryMiddleware(),
+		middleware.RequestLog(),
+		//middleware.SessionAuthMiddleware(),
+		middleware.TranslationMiddleware())
+	{
+		controller.DashboardRegister(mainRouter)
+	}
 	return router
 }
