@@ -9,6 +9,13 @@ const (
 	LoadTypeTCP  = 1
 	LoadTypeGRPC = 2
 
+	RedisFlowDayKey  = "flow_day_count"
+	RedisFlowHourKey = "flow_hour_count"
+
+	FlowTotal         = "flow_total"
+	FlowServicePrefix = "flow_service_"
+	FlowAppPrefix     = "flow_app_"
+
 	HTTPRuleTypePrefixURL = 0
 	HTTPRuleTypeDomain    = 1
 )

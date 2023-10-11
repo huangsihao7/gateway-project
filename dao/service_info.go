@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"gateway-pj/dto"
+	"gateway-project/dto"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"time"

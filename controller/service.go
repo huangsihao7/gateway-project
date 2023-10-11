@@ -2,10 +2,10 @@ package controller
 
 import (
 	"fmt"
-	"gateway-pj/dao"
-	"gateway-pj/dto"
-	"gateway-pj/middleware"
-	"gateway-pj/public"
+	"gateway-project/dao"
+	"gateway-project/dto"
+	"gateway-project/middleware"
+	"gateway-project/public"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"

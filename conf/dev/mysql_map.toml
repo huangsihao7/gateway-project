@@ -2,7 +2,7 @@
 [list]
 [list.default]
 driver_name = "mysql"
-data_source_name = "root:123456@tcp(172.22.110.88:3333)/gateway_db?charset=utf8&parseTime=true&loc=Asia%2FChongqing"
+data_source_name = "root:123456@tcp(172.22.110.66:3333)/gateway_db?charset=utf8&parseTime=true&loc=Asia%2FChongqing"
 max_open_conn = 20
 max_idle_conn = 10
 max_conn_life_time = 100

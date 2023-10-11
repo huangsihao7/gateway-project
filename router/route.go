@@ -1,9 +1,9 @@
 package router
 
 import (
-	"gateway-pj/controller"
-	"gateway-pj/docs"
-	"gateway-pj/middleware"
+	"gateway-project/controller"
+	"gateway-project/docs"
+	"gateway-project/middleware"
 	"github.com/e421083458/golang_common/lib"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"

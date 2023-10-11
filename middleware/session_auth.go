@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"errors"
-	"gateway-pj/public"
+	"gateway-project/public"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 )

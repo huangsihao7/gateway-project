@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"fmt"
-	"gateway-pj/public"
+	"gateway-project/public"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/zh"
