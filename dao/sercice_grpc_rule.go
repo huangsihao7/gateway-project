@@ -18,8 +18,8 @@ func (t *GrpcRule) TableName() string {
 
 func (t *GrpcRule) Find(c *gin.Context, tx *gorm.DB, search *GrpcRule) (*GrpcRule, error) {
 	model := &GrpcRule{}
-	err := tx.WithContext(c).Where(search).First(&model).Error
-	return search, err
+	err := tx.Debug().WithContext(c).Where(search).First(model).Error
+	return model, err
 }
 
 func (t *GrpcRule) Save(c *gin.Context, tx *gorm.DB) error {

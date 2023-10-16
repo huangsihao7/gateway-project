@@ -26,6 +26,8 @@ func init() {
 	ServiceManagerHandler = NewServiceManager()
 }
 
+//把服务加载到内存中
+
 type ServiceManager struct {
 	//通过ServiceName 找到detail
 	ServiceMap   map[string]*ServiceDetail
@@ -77,6 +79,8 @@ func (s *ServiceManager) LoadOnce() error {
 	return s.err
 }
 
+// 查看http服务是否接入进来
+
 func (s *ServiceManager) HTTPAccessMode(c *gin.Context) (*ServiceDetail, error) {
 	//1、前缀匹配 /abc ==> serviceSlice.rule
 	//2、域名匹配 www.test.com ==> serviceSlice.rule
@@ -101,4 +105,31 @@ func (s *ServiceManager) HTTPAccessMode(c *gin.Context) (*ServiceDetail, error) 
 		}
 	}
 	return nil, errors.New("没有匹配到服务")
+}
+
+//拿到service的tcp服务
+
+func (s *ServiceManager) GetTcpList() []*ServiceDetail {
+	var list []*ServiceDetail
+	for _, serverItem := range s.ServiceSlice {
+		tmpItem := serverItem
+		if tmpItem.Info.LoadType == public.LoadTypeTCP {
+			list = append(list, tmpItem)
+		}
+
+	}
+	return list
+}
+
+//拿到service的grpc服务
+
+func (s *ServiceManager) GetGrpcServiceList() []*ServiceDetail {
+	list := []*ServiceDetail{}
+	for _, serverItem := range s.ServiceSlice {
+		tempItem := serverItem
+		if tempItem.Info.LoadType == public.LoadTypeGRPC {
+			list = append(list, tempItem)
+		}
+	}
+	return list
 }

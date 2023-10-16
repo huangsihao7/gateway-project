@@ -97,9 +97,9 @@ func (t *ServiceInfo) ServiceDetail(c *gin.Context, tx *gorm.DB, search *Service
 	return serviceDetail, nil
 }
 
-func (t *ServiceInfo) GroupByLoadType(c *gin.Context, tx *gorm.DB) ([]dto.StatItem, error) {
+func (t *ServiceInfo) GroupByLoadType(c *gin.Context, tx *gorm.DB) ([]dto.DashServiceStatItemOutput, error) {
 
-	var list []dto.StatItem // 接收查询结果
+	var list []dto.DashServiceStatItemOutput // 接收查询结果
 
 	query := tx.WithContext(c)                              // 新建一个查询
 	query = query.Table(t.TableName()).Where("is_delete=0") // 通用的查询

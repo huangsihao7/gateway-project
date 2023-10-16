@@ -1,7 +1,9 @@
 package http_proxy_router
 
 import (
+	"gateway-project/controller"
 	"gateway-project/http_proxy_middleware"
+	"gateway-project/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,8 +16,16 @@ func InitRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			"message": "pong",
 		})
 	})
+
+	oauth := router.Group("/oauth")
+	oauth.Use(middleware.TranslationMiddleware())
+	{
+		controller.OAuthControllerRegister(oauth)
+	}
+
 	router.Use(
 		http_proxy_middleware.HTTPAccessModeMiddleware(),
+		http_proxy_middleware.HTTPJwtAuthTokenMiddleware(),
 		http_proxy_middleware.HTTPFlowCountMiddleware(),
 		http_proxy_middleware.HTTPFlowLimitMiddleware(),
 		http_proxy_middleware.HTTPWhiteListMiddleware(),

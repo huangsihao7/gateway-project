@@ -12,7 +12,7 @@ import (
 
 type App struct {
 	ID        int64     `json:"id" gorm:"primary_key"`
-	AppID     string    `json:"app_id" gorm:"column:app_id" description:"租户id	"`
+	AppID     string    `json:"app_id" gorm:"column:app_id" description:"租户id	"`
 	Name      string    `json:"name" gorm:"column:name" description:"租户名称	"`
 	Secret    string    `json:"secret" gorm:"column:secret" description:"密钥"`
 	WhiteIPS  string    `json:"white_ips" gorm:"column:white_ips" description:"ip白名单，支持前缀匹配"`
@@ -29,7 +29,7 @@ func (t *App) TableName() string {
 
 func (t *App) Find(c *gin.Context, tx *gorm.DB, search *App) (*App, error) {
 	model := &App{}
-	err := tx.WithContext(c).Where(search).First(model).Error
+	err := tx.WithContext(c).Where(search).Find(model).Error
 	return model, err
 }
 
@@ -40,15 +40,13 @@ func (t *App) Save(c *gin.Context, tx *gorm.DB) error {
 	return nil
 }
 
-// --------------------逻辑区域---------------------
-
 func (t *App) APPList(c *gin.Context, tx *gorm.DB, params *dto.APPListInput) ([]App, int64, error) {
 	var list []App
 	var count int64
 	pageNo := params.PageNo
 	pageSize := params.PageSize
 
-	// 类似于分页与server中的逻辑相同
+	//limit offset,pagesize
 	offset := (pageNo - 1) * pageSize
 	query := tx.WithContext(c)
 	query = query.Table(t.TableName()).Select("*")
@@ -69,6 +67,10 @@ func (t *App) APPList(c *gin.Context, tx *gorm.DB, params *dto.APPListInput) ([]
 
 var AppManagerHandler *AppManager
 
+func init() {
+	AppManagerHandler = NewAppManager()
+}
+
 type AppManager struct {
 	AppMap   map[string]*App
 	AppSlice []*App
@@ -77,8 +79,8 @@ type AppManager struct {
 	err      error
 }
 
-func init() {
-	AppManagerHandler = &AppManager{
+func NewAppManager() *AppManager {
+	return &AppManager{
 		AppMap:   map[string]*App{},
 		AppSlice: []*App{},
 		Locker:   sync.RWMutex{},
